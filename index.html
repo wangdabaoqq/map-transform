@@ -1,0 +1,265 @@
+---
+layout: false
+---
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<script type="text/javascript" src="./layui-v2.5.5//layui//layui.all.js"></script> 
+    <script type="text/javascript" src="./js/index.js"></script> 		
+		<!-- <link rel="stylesheet" href="http://cdn.clouddeep.cn/amazeui/1.0.1/css/amazeui.basic.min.css"> -->
+	<link rel="stylesheet" href="./layui-v2.5.5/layui//css/layui.css" media="all">
+		<style>
+				html, body, #container {
+					height: 100%;
+					width: 100%;
+					position: relative;
+        }
+				.dialog {
+					position: absolute;
+					top: 0px;
+					right: 10px;
+					width: 300px;
+					height: 300px;
+					background-color: #fff;
+				}
+				.search {
+					height: 50px;
+				}
+				.line {
+					margin: 0 auto;
+					/* line-height: 40px; */
+				}
+				.layui-input-block, .layui-form-item {
+					display: inline-block;
+				}
+				.layui-input-block {
+					margin-left: 0;
+				}
+				.layui-form-item {
+					margin-bottom: 0;
+				}
+				.am-form-group {
+					margin: 0 20px;
+					display: inline-block;
+				}
+				.widSty {
+					width: 250px;
+				}
+				.textIn {
+					height: 20px;
+					width: 200px;
+				}
+    </style>
+    <title>地图转换</title>
+</head>
+<body>
+		<div class="search">
+			<div class="line">
+
+					<form class="layui-form" action="">
+					<!-- <form class="layui-form" action=""> -->
+					<div class="layui-form-item">
+							<label class="layui-form-label">选择地图</label>
+						<div class="layui-input-block">
+						<input id="loadGao" lay-filter="filter" type="radio" name="doc-radio-1" value="0" checked title="高德地图">
+						<!-- </label> -->
+						<input id="loadBaidu" lay-filter="filter" type="radio" name="doc-radio-1" value="1" title="百度地图">
+					</div>
+					</div>
+					<div class="layui-form-item">
+							<label class="layui-form-label" style="width: 120px">选择转换的经纬度</label>
+							<div class="layui-input-block widSty">
+							<select name="interest" lay-filter="aihao">
+									<option value="0" selected>百度经纬度坐标转国测局坐标</option>
+									<option value="1">国测局坐标转百度经纬度坐标</option>
+									<option value="2">wgs84转国测局坐标</option>
+									<option value="3">国测局坐标转wgs84坐标</option>
+								</select>
+					</div>
+							<!-- <span class="am-form-caret"></span> -->
+						</div>
+						<!-- <div  class="layui-form-item">
+								<label for="layui-form-label">按照坐标搜索</label>
+								<div class="layui-input-block">
+								<input type="text" class="textIn" id="doc-ipt-text-1" placeholder="输入坐标 坐标格式为: 经度,纬度">
+								</div>
+
+						</div> -->
+						<div class="layui-form-item">
+							<label class="layui-form-label">输入经纬度</label>
+							<div class="layui-input-block widSty">
+								<input type="text" name="identity" lay-filter="valtext" placeholder="输入坐标 坐标格式为: 经度,纬度" autocomplete="off" class="layui-input">
+							</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">结果</label>
+								<div class="layui-input-block widSty">
+									<input disabled type="text" name="identity"  autocomplete="off" class="layui-input">
+								</div>
+								<!-- <button type="submit"  class="layui-btn layui-btn-normal" lay-submit lay-filter="copy">复制</button> -->
+								</div>
+								<div class="layui-form-item">
+									<div class="layui-input-block">
+										<button type="submit" class="layui-btn" lay-submit  lay-filter="demo1">查询</button>
+										<!-- <button type="reset" class="layui-btn layui-btn-primary">重置</button> -->
+									</div>
+								</div>
+				</form>
+			</div>
+		</div>
+		<div id="container"></div>
+		<!-- <div class="dialog">
+		<div class="am-radio">
+				<label>
+					<input type="radio" name="doc-radio-1" value="option1" checked>
+					单选框 - 选项1
+				</label>
+			</div>
+			</div> -->
+</body>
+</html>
+<script>
+	// 创建点坐标
+	var marker
+	var typeMap = '0'
+	var mapVal = '0'
+	let createMarker = (position) => {
+		if (marker && +mapVal === 0) {
+			map.remove(marker)
+		} 
+		if (marker && +mapVal === 1) {
+			map.removeOverlay(marker)
+		}
+		if (+mapVal === 0) {
+			marker = new AMap.Marker({
+				position
+			});
+			map.add(marker);	
+		} else {
+			// console.log(111)
+			var point = new BMap.Point(position[0], position[1]);
+			marker = new BMap.Marker(point)
+			map.centerAndZoom(point, 15);
+			map.addOverlay(marker)
+		}
+	}
+layui.use('form', function(){
+	// console.log(layui)
+	// layer.msg('Hello World');
+  var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+  form.on('radio(filter)', function(data){
+		removeMap()
+		mapVal = data.value
+	  if (+data.value === 0) {
+		initLoad('gaode')
+	} else {
+		initLoad('baidu')
+	}
+});  
+  form.on('select(aihao)', (data) => {
+		typeMap = data.value
+	})
+	// form.on('submit(copy)', (data) => {
+	// 	console.log(data.form[5].value)
+	// 	// let ele = data.form[5].innerHTML
+	// 	console.log(document.execCommand)
+	// 	data.form[5].select()
+	// 	document.execCommand("copy")
+	// 	// console.lig(data.form[5].select())
+	// 	return false
+	// 	// typeMap = data.value
+	// })
+	// var data1 = form.val("valtext");
+	form.on('submit(demo1)', function(data){
+		let arrSlit = data.form[4].value
+		let result = ''
+		if (arrSlit) {
+			arrSlit = arrSlit.split(',')
+			// console.log(arrSlit)
+			var numArr = []
+			switch (typeMap) {
+				case '0':
+					// console.log
+					numArr = coordtransform.bd09togcj02(arrSlit[0], arrSlit[1]);
+					// console.log(numArrs)
+					break;
+				case '1':
+					numArr = coordtransform.gcj02tobd09(arrSlit[0], arrSlit[1])
+					break
+				case'2':
+					var numArr = coordtransform.wgs84togcj02(arrSlit[0], arrSlit[1]);
+				break;	
+				default:
+					break;
+			}
+			numArr.forEach(element => {
+				result += element + ','
+				// console.log(element)
+			});
+			result = result.substring(0, result.length - 1)
+			// console.log(result)
+			data.form[5].value = result
+			// debugger
+			createMarker(numArr)
+		}
+		// console.log(numArr)
+		// let arrSlit = data.form[4].value
+
+		// console.log(data)
+  return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+});
+  form.render();
+});      
+  
+var map,jsapi
+initLoad('gaode')
+	window.onLoad  = function() {
+		// if (name === 'gaode') {
+			map = new AMap.Map('container');
+			jsapi.id = "Gaode"
+	}
+	window.init = function () {
+		map = new BMap.Map("container")
+		var point = new BMap.Point(116.404, 39.915); // 创建点坐标
+		map.centerAndZoom(point,15);                 
+		map.enableScrollWheelZoom();    
+		jsapi.id = "Baidu"
+	}
+function initLoad (name) {
+	console.log(111)
+	var url
+	if (name === 'gaode') {
+		url = 'https://webapi.amap.com/maps?v=1.4.15&key=9183c1c87d64f7f8454c8ce7b9199410&callback=onLoad';
+	} else {
+		// url = 'http://api.map.baidu.com/api?v=3.0&ak=zDYX28cey9auH2Yx0HO04MGUAZs34Pws'
+		url = 'http://api.map.baidu.com/api?v=2.0&ak=zDYX28cey9auH2Yx0HO04MGUAZs34Pws&callback=init'
+	}
+  // var url = 'https://webapi.amap.com/maps?v=1.4.15&key=9183c1c87d64f7f8454c8ce7b9199410&callback=onLoad';
+  jsapi = document.createElement('script');
+  jsapi.charset = 'utf-8';
+	jsapi.src = url;
+  document.head.appendChild(jsapi);
+}
+var removeMap = () => {
+	let baidu = document.getElementById('Baidu')
+	let gaode = document.getElementById('Gaode')
+	// console.log(gaode.parentNode)
+	if (gaode) gaode.parentNode.removeChild(gaode)
+	if (baidu) baidu.parentNode.removeChild(baidu)
+}
+var gaode = document.getElementById('loadGao')
+	var baidu = document.getElementById('loadBaidu')
+gaode.addEventListener('click', (e) => {
+	removeMap()
+	initLoad('gaode')
+})
+
+baidu.addEventListener('click', (e) => {
+	removeMap()
+	initLoad('baidu')
+})
+
+</script>
