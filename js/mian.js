@@ -24,6 +24,25 @@
 			map.addOverlay(marker)
 		}
 	}
+	let position = (lnglat, data) => {
+		// let lnglat = pos.split(',')
+		AMap.plugin('AMap.Geocoder', function() {
+			let geocoder = new AMap.Geocoder({
+				// city 指定进行编码查询的城市，支持传入城市名、adcode 和 citycode
+				city: '010'
+			})
+			geocoder.getAddress(lnglat, function(status, result) {
+				if (status === 'complete'&&result.regeocode) {
+					var address = result.regeocode.formattedAddress;
+					// console.log(address)
+					data.form[6].value = address
+					// document.getElementById('address').value = address;
+				}else{
+					log.error('根据经纬度查询地址失败')
+				}
+			})
+		})
+	}
 layui.use('form', function(){
   var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
   form.on('radio(filter)', (data) => {
@@ -70,6 +89,7 @@ layui.use('form', function(){
 			// console.log(result)
 			data.form[5].value = result
 			// debugger
+			position(numArr, data)
 			createMarker(numArr)
 		}
   return false
