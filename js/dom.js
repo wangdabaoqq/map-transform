@@ -19,7 +19,7 @@
   var getPoly = document.querySelector('#poly')
   // console.log(domShow)
   let result = new domShow(getPos, getPoly)
-  result.change()
+  result.init()
   layui.use('form', function () {
     var form = layui.form;
     form.on('radio(check)', function (data) {
