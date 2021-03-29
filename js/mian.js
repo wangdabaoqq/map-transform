@@ -29,7 +29,7 @@
 		if (+mapVal === 0) {
 			var GaoMap = new Gaode()
 		await GaoMap.getPosition(lnglat, (result) => {
-				data.form[6].value = result
+				data.form[2].value = result
 			})
 		}
 		if (+mapVal === 1) {
@@ -37,13 +37,14 @@
 			let point = new BMap.Point(lnglat[0], lnglat[1])
 			// map.centerAndZoom(point, 22)
 			await BaiMap.getPosition(point, (result) => {
-				data.form[6].value = result
+				data.form[2].value = result
 			})
 		}
 	}
 	layui.use('form', function () {
+		// console.log(layui.form)
 		var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
-		form.on('radio(filter)', (data) => {
+		form.on('select(map)', (data) => {
 			removeMap()
 			mapVal = data.value
 			if (+data.value === 0) {
@@ -56,7 +57,8 @@
 			typeMap = data.value
 		})
 		form.on('submit(demo1)', function (data) {
-			let arrSlit = data.form[4].value
+			let arrSlit = data.form[0].value
+			// console.log(arrSlit)
 			let result = ''
 			if (arrSlit) {
 				arrSlit = arrSlit.split(',')
@@ -84,8 +86,8 @@
 					// console.log(element)
 				});
 				result = result.substring(0, result.length - 1)
-				// console.log(result)
-				data.form[5].value = result
+				console.log(result)
+				data.form[1].value = result
 				position(numArr, data)
 				createMarker(numArr)
 			}
@@ -98,7 +100,7 @@
 	initLoad('gaode')
 	window.onLoad = function () {
 		// if (name === 'gaode') {
-		map = new AMap.Map('container');
+		window.map = new AMap.Map('container');
 		jsapi.id = "Gaode"
 	}
 	window.init = function () {
