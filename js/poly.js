@@ -28,13 +28,29 @@
     })
     form.on('submit(submitPoly)', function (data) {
       try {
+        // console.log(d)
+        // console.log(allkey)
         var polyVal = data.form[0].value
+        let newKeys = JSON.parse(polyVal)
+        // console.log(JSON.parse(polyVal))
+        let newVal = Object.values(newKeys)
+        var flatData = newVal.flat()
         let datas = []
-        polyVal.split(';').forEach(el => {
-          if (el !== '') {
-            datas.push(transform(typeMap, el.split(',')))
-          }
+        // console.log(newVal.flat())
+        // polyVal.split(';').forEach(el => {
+        //   if (el !== '') {
+        //     datas.push(transform(typeMap, el.split(',')))
+        //   }
+        // })
+        flatData.forEach(el => {
+          console.log(el)
+          datas.push(transform(typeMap, [el.longitude, el.latitude]))
         })
+        // allkey.forEach(el => {
+        //   d[el].forEach(ele => {
+        //     datas.push(transform(typeMap, [ele.longitude, ele.latitude]))
+        //   })
+        // })
         data.form[1].value = JSON.stringify(datas)
         polyline = new AMap.Polyline({
           path: datas,
