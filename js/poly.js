@@ -32,10 +32,16 @@
         window.map.clearMap()
       }
       var polyVal = data.form[0].value
-      console.log(data.form)
+      // console.log(data.form)
       // console.log(polyVal)
+      // const enumType = {
+      //   '-': '-',
+      //   ';': ';'
+      // }
       let datas = []
-     polyVal.split(';').forEach(el => {
+      // enumType[]
+      // console.log(polyVal.indexOf(enumType))
+      polyVal.split(';').forEach(el => {
         if (el !== '') {
           datas.push(transform(typeMap, el.split(',')))
         }
