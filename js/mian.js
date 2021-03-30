@@ -5,6 +5,7 @@
 	var typeMap = '0'
 	var mapVal = '0'
 	let createMarker = (position) => {
+		console.log(position)
 		if (marker && +mapVal === 0) {
 			map.remove(marker)
 		}
@@ -15,20 +16,20 @@
 			marker = new AMap.Marker({
 				position
 			});
-			map.add(marker);
-			map.setFitView()
+			window.map.add(marker);
+			window.map.setFitView()
 		} else {
 			var point = new BMap.Point(position[0], position[1]);
 			marker = new BMap.Marker(point)
-			map.centerAndZoom(point, 20);
-			map.addOverlay(marker)
+			window.map.centerAndZoom(point, 20);
+			window.map.addOverlay(marker)
 		}
 	}
 	let position = async (lnglat, data) => {
 		console.log(mapVal)
 		if (+mapVal === 0) {
 			var GaoMap = new Gaode()
-		await GaoMap.getPosition(lnglat, (result) => {
+			await GaoMap.getPosition(lnglat, (result) => {
 				data.form[2].value = result
 			})
 		}
@@ -58,47 +59,46 @@
 		})
 		form.on('submit(demo1)', function (data) {
 			try {
-			let arrSlit = data.form[0].value
-			// console.log(arrSlit)
-			let result = ''
-			if (arrSlit) {
-				arrSlit = arrSlit.split(',')
-				// console.log(arrSlit)
-				var numArr = []
-				switch (typeMap) {
-					case '0':
-						// console.log
-						numArr = coordtransform.bd09togcj02(arrSlit[0], arrSlit[1]);
-						// console.log(numArrs)
-						break;
-					case '1':
-						numArr = coordtransform.gcj02tobd09(arrSlit[0], arrSlit[1])
-						break
-					case '2':
-						numArr = coordtransform.wgs84togcj02(arrSlit[0], arrSlit[1]);
-						break;
-					case '3':
-						numArr = coordtransform.gcj02towgs84(arrSlit[0], arrSlit[1]);
-					default:
-						break;
+				let arrSlit = data.form[0].value
+				console.log(arrSlit)
+				let result = ''
+				if (arrSlit) {
+					arrSlit = arrSlit.split(',')
+					// console.log(arrSlit)
+					var numArr = []
+					switch (typeMap) {
+						case '0':
+							// console.log
+							numArr = coordtransform.bd09togcj02(arrSlit[0], arrSlit[1]);
+							// console.log(numArrs)
+							break;
+						case '1':
+							numArr = coordtransform.gcj02tobd09(arrSlit[0], arrSlit[1])
+							break
+						case '2':
+							numArr = coordtransform.wgs84togcj02(arrSlit[0], arrSlit[1]);
+							break;
+						case '3':
+							numArr = coordtransform.gcj02towgs84(arrSlit[0], arrSlit[1]);
+						default:
+							break;
+					}
+					numArr.forEach(element => {
+						result += element + ','
+						// console.log(element)
+					});
+					result = result.substring(0, result.length - 1)
+					data.form[1].value = result
+					position(numArr, data)
+					createMarker(numArr)
+					return false
 				}
-				numArr.forEach(element => {
-					result += element + ','
-					// console.log(element)
+			} catch (e) {
+				layer.msg(e, {
+					offset: 't',
+					anim: 6
 				});
-				result = result.substring(0, result.length - 1)
-				console.log(result)
-				data.form[1].value = result
-				position(numArr, data)
-				createMarker(numArr)
 			}
-		}catch (e) {
-			layer.msg(e, {
-        offset: 't',
-        anim: 6
-      });
-		}
-			return false
 		});
 		form.render();
 	});
