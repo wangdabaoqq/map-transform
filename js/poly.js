@@ -27,6 +27,7 @@
 			typeMap = data.value
 		})
     form.on('submit(submitPoly)', function (data) {
+      try {
       var polyVal = data.form[0].value
       let datas = []
       polyVal.split(';').forEach(el => {
@@ -57,6 +58,12 @@
       // // console.log(r)
       // console.log(result)
       // console.log(result.ssplit(','))
+    } catch(e) {
+      layer.msg(e, {
+        offset: 't',
+        anim: 6
+      });
+    }
       return false;
       // form.render();
     });

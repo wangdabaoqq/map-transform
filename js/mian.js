@@ -57,6 +57,7 @@
 			typeMap = data.value
 		})
 		form.on('submit(demo1)', function (data) {
+			try {
 			let arrSlit = data.form[0].value
 			// console.log(arrSlit)
 			let result = ''
@@ -91,6 +92,12 @@
 				position(numArr, data)
 				createMarker(numArr)
 			}
+		}catch (e) {
+			layer.msg(e, {
+        offset: 't',
+        anim: 6
+      });
+		}
 			return false
 		});
 		form.render();
