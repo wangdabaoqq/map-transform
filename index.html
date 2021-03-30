@@ -58,7 +58,9 @@
 		.layui-form {
 			padding: 0px 10px;
 		}
-
+		.textArea textarea{
+			min-height: 80px;
+		}
 		.layui-input-block,
 		.layui-form-item {
 			display: inline-block;
@@ -129,7 +131,7 @@
 				<div class="layui-form-item">
 					<div class="layui-input-block">
 						<select name="city" lay-verify="required" lay-filter="map">
-							<option id="loadGao"  type="radio" name="doc-radio-1" value="0" checked title="高德地图">高德地图</option>
+							<option id="loadGao" type="radio" name="doc-radio-1" value="0" checked title="高德地图">高德地图</option>
 							<option id="loadBaidu" type="radio" name="doc-radio-1" value="1" title="百度地图">百度地图</option>
 						</select>
 					</div>
@@ -148,49 +150,53 @@
 			<form class="layui-form" action="" id="position">
 				<!-- 查看位置 -->
 				<!-- <div id="position"> -->
-					<div class="layui-form-item">
-						<!-- <label class="layui-form-label">输入经纬度</label> -->
-						<div class="layui-input-block">
-							<input type="text" name="identity" lay-filter="valtext" placeholder="输入坐标 坐标格式为: 经度,纬度" autocomplete="off"
-								class="layui-input">
-						</div>
+				<div class="layui-form-item">
+					<!-- <label class="layui-form-label">输入经纬度</label> -->
+					<div class="layui-input-block">
+						<input type="text" name="identity" lay-filter="valtext" placeholder="输入坐标 坐标格式为: 经度,纬度" autocomplete="off"
+							class="layui-input">
 					</div>
-					<div class="layui-form-item">
-						<div class="layui-input-block">
-							<input disabled type="text" name="identity" placeholder="转换后的经纬度" autocomplete="off" class="layui-input">
-						</div>
+				</div>
+				<div class="layui-form-item">
+					<div class="layui-input-block">
+						<input disabled type="text" name="identity" placeholder="转换后的经纬度" autocomplete="off" class="layui-input">
 					</div>
-					<div class="layui-form-item">
-						<div class="layui-input-block widSty">
-							<input disabled type="text" name="identity" placeholder="实际转换位置" autocomplete="off" class="layui-input">
-						</div>
+				</div>
+				<div class="layui-form-item">
+					<div class="layui-input-block widSty">
+						<input disabled type="text" name="identity" placeholder="实际转换位置" autocomplete="off" class="layui-input">
 					</div>
-					<div class="layui-form-item">
-						<div class="layui-input-block">
-							<button type="submit" class="layui-btn" lay-submit lay-filter="demo1">查询</button>
-						</div>
+				</div>
+				<div class="layui-form-item">
+					<div class="layui-input-block">
+						<button type="submit" class="layui-btn" lay-submit lay-filter="demo1">查询</button>
+					</div>
 				</div>
 			</form>
 			<!-- 查看路线 -->
 			<form class="layui-form" action="" id="poly">
 				<div class="layui-form-item layui-form-text">
 					<!-- <label class="layui-form-label">文本域</label> -->
-					<div class="layui-input-block">
-						<textarea name="desc" placeholder="请输入批量经纬度(示例: 117.037416,36.6783;117.037416,36.6783;117.037416,36.6783)" class="layui-textarea"></textarea>
+					<div class="layui-input-block textArea">
+						<textarea name="desc" placeholder="请输入批量经纬度(示例: 117.037416,36.6783;117.037416,36.6783;117.037416,36.6783)"
+							class="layui-textarea"></textarea>
 					</div>
-					<div class="layui-input-block">
+					<div class="layui-input-block textArea">
 						<textarea disabled name="desc" placeholder="请输入批量经纬度" class="layui-textarea"></textarea>
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<div class="layui-input-block">
 						<button type="submit" class="layui-btn" lay-submit lay-filter="submitPoly">查询</button>
+						<button type="submit" class="layui-btn" lay-submit lay-filter="clearMap">清除地图</button>
+
 					</div>
-			</div>
+				</div>
+
 			</form>
 		</div>
-	<div id="container"></div>
-</div>
+		<div id="container"></div>
+	</div>
 </body>
 
 </html>
