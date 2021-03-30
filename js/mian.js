@@ -7,10 +7,10 @@
 	let createMarker = (position) => {
 		console.log(position)
 		if (marker && +mapVal === 0) {
-			map.remove(marker)
+			window.map.remove(marker)
 		}
 		if (marker && +mapVal === 1) {
-			map.removeOverlay(marker)
+			window.map.removeOverlay(marker)
 		}
 		if (+mapVal === 0) {
 			marker = new AMap.Marker({
