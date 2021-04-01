@@ -2,7 +2,7 @@
 (() => {
 	// 创建点坐标
 	var marker
-	var typeMap = '0'
+	// var typeMap = '0'
 	var mapVal = '0'
 	let createMarker = (position) => {
 		console.log(position)
@@ -46,6 +46,7 @@
 		// console.log(layui.form)
 		var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
 		form.on('select(map)', (data) => {
+			console.log(data)
 			removeMap()
 			mapVal = data.value
 			if (+data.value === 0) {
@@ -54,8 +55,11 @@
 				initLoad('baidu')
 			}
 		});
+		// console.log(form)
 		form.on('select(aihao)', (data) => {
-			typeMap = data.value
+			window.typeMap = data.value
+			console.log(window)
+			// console.log(typeMap)
 		})
 		form.on('submit(demo1)', function (data) {
 			try {
@@ -66,7 +70,7 @@
 					arrSlit = arrSlit.split(',')
 					// console.log(arrSlit)
 					var numArr = []
-					switch (typeMap) {
+					switch (window.typeMap) {
 						case '0':
 							// console.log
 							numArr = coordtransform.bd09togcj02(arrSlit[0], arrSlit[1]);

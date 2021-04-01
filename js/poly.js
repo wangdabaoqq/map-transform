@@ -1,10 +1,11 @@
 (() => {
   layui.use('form', function () {
     var form = layui.form;
-    var typeMap = '0'
+    // var typeMap = '0'
+    // console.log(this)
     var polyline
     const transform = (typeMap = '0', data) => {
-      console.log(data)
+      // console.log(data)
       switch (typeMap) {
         case '0':
           // console.log
@@ -23,9 +24,11 @@
           break;
       }
     }
-    form.on('select(aihao)', (data) => {
-      typeMap = data.value
-    })
+    // form.on('select(aihao)', (data) => {
+    //   // console.log(data)con
+    //   console.log()
+    //   window.typeMap = data.value
+    // })
     form.on('submit(submitPoly)', function (data) {
       try {
         // console.log(d)
@@ -35,7 +38,7 @@
         // console.log(JSON.parse(polyVal))
         let newVal = Object.values(newKeys)
         var flatData = newVal
-        let datas = []
+        // let datas = []
         // console.log(newVal.flat())
         // polyVal.split(';').forEach(el => {
         //   if (el !== '') {
@@ -49,7 +52,7 @@
         const getData = () => {
           return flatData.reduce((init, ele, index) => {
             // console.log(init, ele)
-            let ddd = ele.map(el => transform(typeMap, [el.longitude, el.latitude]))
+            let ddd = ele.map(el => transform(window.typeMap, [el.longitude, el.latitude]))
             // init.push(transform(typeMap, [ele.longitude, ele.latitude]))
               // init[index].push((transform(typeMap, [ele.longitude, ele.latitude]))
             init[index] = ddd
