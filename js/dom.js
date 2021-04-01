@@ -6,7 +6,6 @@
       this.getPoly = poly
     }
     init() {
-      console.log(111)
       this.getPos.style.display = 'block'
       this.getPoly.style.display = 'none'
     }

@@ -12,10 +12,6 @@ class Baidu extends BaseMap {
     super()
   }
   getPosition(lnglat, fn) {
-    // console.log(lnglat)
-    // let point = BMap.Point(lnglat)
-    // let point = new BMap.Point(lnglat[0], lnglat[1])
-
     let geoc = new BMap.Geocoder()
     geoc.getLocation(lnglat, (rs) => {
       // if (rs)

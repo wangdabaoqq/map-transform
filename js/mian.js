@@ -68,25 +68,7 @@
 				let result = ''
 				if (arrSlit) {
 					arrSlit = arrSlit.split(',')
-					// console.log(arrSlit)
-					var numArr = []
-					switch (window.typeMap) {
-						case '0':
-							// console.log
-							numArr = coordtransform.bd09togcj02(arrSlit[0], arrSlit[1]);
-							// console.log(numArrs)
-							break;
-						case '1':
-							numArr = coordtransform.gcj02tobd09(arrSlit[0], arrSlit[1])
-							break
-						case '2':
-							numArr = coordtransform.wgs84togcj02(arrSlit[0], arrSlit[1]);
-							break;
-						case '3':
-							numArr = coordtransform.gcj02towgs84(arrSlit[0], arrSlit[1]);
-						default:
-							break;
-					}
+					var numArr = transform(window.typeMap, arrSlit)
 					numArr.forEach(element => {
 						result += element + ','
 						// console.log(element)
