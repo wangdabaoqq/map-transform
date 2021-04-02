@@ -15,7 +15,7 @@
 		if (+mapVal === 0) {
 			marker = new AMap.Marker({
 				position,
-				offset: new AMap.Pixel(0, -40
+				offset: new AMap.Pixel(0, -40)
 			});
 			window.map.add(marker);
 			window.map.setFitView()
