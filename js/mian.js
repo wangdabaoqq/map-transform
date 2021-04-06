@@ -3,7 +3,7 @@
 	// 创建点坐标
 	var marker
 	// var typeMap = '0'
-	var mapVal = '0'
+	window.mapVal = '0'
 	let createMarker = (position) => {
 		console.log(position)
 		if (marker && +mapVal === 0) {
@@ -26,7 +26,7 @@
 			window.map.addOverlay(marker)
 		}
 	}
-	let position = async (lnglat, data) => {
+	let position = async (lnglat, data, mapVal) => {
 		console.log(mapVal)
 		if (+mapVal === 0) {
 			var GaoMap = new Gaode()
@@ -47,9 +47,8 @@
 		// console.log(layui.form)
 		var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
 		form.on('select(map)', (data) => {
-			console.log(data)
 			removeMap()
-			mapVal = data.value
+			window.mapVal = data.value
 			if (+data.value === 0) {
 				initLoad('gaode')
 			} else {
@@ -76,8 +75,8 @@
 					});
 					result = result.substring(0, result.length - 1)
 					data.form[1].value = result
-					position(numArr, data)
-					createMarker(numArr)
+					position(numArr, data, window.mapVal)
+					createMarker(numArr, window.mapVal)
 					return false
 				}
 			} catch (e) {
@@ -98,10 +97,10 @@
 		jsapi.id = "Gaode"
 	}
 	window.init = function () {
-		map = new BMap.Map("container")
+		window.map = new BMap.Map("container")
 		var point = new BMap.Point(116.404, 39.915); // 创建点坐标
-		map.centerAndZoom(point, 15);
-		map.enableScrollWheelZoom();
+		window.map.centerAndZoom(point, 15);
+		window.map.enableScrollWheelZoom();
 		jsapi.id = "Baidu"
 	}
 	function initLoad(name) {
