@@ -1,5 +1,5 @@
-'use strict';
-(() => {
+'use strict'
+;(() => {
   class domShow {
     constructor(pos, poly) {
       this.getPos = pos
@@ -20,7 +20,7 @@
   let result = new domShow(getPos, getPoly)
   result.init()
   layui.use('form', function () {
-    var form = layui.form;
+    var form = layui.form
     form.on('radio(check)', function (data) {
       if (data.value === 'pos') {
         result.init()
@@ -28,8 +28,6 @@
         getPos.style.display = 'none'
         getPoly.style.display = 'block'
       }
-    });
+    })
   })
-
-
 })()
