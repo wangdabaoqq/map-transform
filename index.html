@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
-	<link rel="stylesheet" href="./layui-v2.5.5/layui//css/layui.css" media="all" />
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="./layui-v2.5.5/layui//css/layui.css" media="all">
 	<script type="text/javascript" src="./layui-v2.5.5//layui//layui.all.js"></script>
 	<script type="text/javascript" src="./js/index.js"></script>
 	<script type="text/javascript" src="./js/mian.js" async></script>
@@ -68,7 +68,7 @@
 		.layui-input-block,
 		.layui-form-item {
 			display: inline-block;
-			width: 100%;
+			width: 100%
 		}
 
 		.clearForm {
@@ -128,19 +128,15 @@
 				<div class="layui-form-item">
 					<!-- <label class="layui-form-label"></label> -->
 					<div class="layui-input-block display__b">
-						<input type="radio" name="sex" lay-filter="check" value="pos" title="查看位置" checked="" />
-						<input type="radio" name="sex" lay-filter="check" value="poly" title="查看路线" />
+						<input type="radio" name="sex" lay-filter="check" value="pos" title="查看位置" checked="">
+						<input type="radio" name="sex" lay-filter="check" value="poly" title="查看路线">
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<div class="layui-input-block">
 						<select name="city" lay-verify="required" lay-filter="map">
-							<option id="loadGao" type="radio" name="doc-radio-1" value="0" checked title="高德地图">
-								高德地图
-							</option>
-							<option id="loadBaidu" type="radio" name="doc-radio-1" value="1" title="百度地图">
-								百度地图
-							</option>
+							<option id="loadGao" name="doc-radio-1" value="0" selected >高德地图</option>
+							<option id="loadBaidu" name="doc-radio-1" value="1">百度地图</option>
 						</select>
 					</div>
 				</div>
@@ -162,27 +158,23 @@
 					<!-- <label class="layui-form-label">输入经纬度</label> -->
 					<div class="layui-input-block">
 						<input type="text" name="identity" lay-filter="valtext" placeholder="输入坐标 坐标格式为: 经度,纬度" autocomplete="off"
-							class="layui-input" />
+							class="layui-input">
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<div class="layui-input-block">
-						<input disabled type="text" name="identity" placeholder="转换后的经纬度" autocomplete="off" class="layui-input" />
+						<input disabled type="text" name="identity" placeholder="转换后的经纬度" autocomplete="off" class="layui-input">
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<div class="layui-input-block widSty">
-						<input disabled type="text" name="identity" placeholder="实际转换位置" autocomplete="off" class="layui-input" />
+						<input disabled type="text" name="identity" placeholder="实际转换位置" autocomplete="off" class="layui-input">
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<div class="layui-input-block">
-						<button type="button" class="layui-btn" lay-submit lay-filter="demo1">
-							查询
-						</button>
-						<button type="button" class="layui-btn" lay-submit lay-filter="clearMap">
-							清除覆盖物
-						</button>
+						<button type="button" class="layui-btn" lay-submit lay-filter="demo1">查询</button>
+						<button type="button" class="layui-btn" lay-submit lay-filter="clearMap">清除覆盖物</button>
 					</div>
 				</div>
 			</form>
@@ -205,12 +197,8 @@
 				</div> -->
 				<div class="layui-form-item">
 					<div class="layui-input-block">
-						<button type="button" class="layui-btn" lay-submit lay-filter="submitPoly">
-							查询
-						</button>
-						<button type="button" class="layui-btn" lay-submit lay-filter="clearMap">
-							清除地图
-						</button>
+						<button type="button" class="layui-btn" lay-submit lay-filter="submitPoly">查询</button>
+						<button type="button" class="layui-btn" lay-submit lay-filter="clearMap">清除地图</button>
 					</div>
 				</div>
 			</form>

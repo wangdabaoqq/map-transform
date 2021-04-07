@@ -6,25 +6,13 @@ function getStringPos() {
 
 class GetMap {
   constructor (option) {
-    // this.mapOption = {}
-    // console.log(option)
-    // this.mapOption = {
-    //   // transMap: '0',
-    //   // map: null,
-    //   // mapId: '0'
-    // }
-    // console.log(option)
     this.mapOption = Object.assign({}, option)
-    // console.log(this.mapOption)
   }
   transform (data) {
     console.log(this, data)
     switch (this.mapOption.transMap) {
       case '0':
-        // console.log
         return coordtransform.bd09togcj02(data[0], data[1]);
-      // console.log(numArrs)
-      // break;
       case '1':
         return coordtransform.gcj02tobd09(data[0], data[1])
       // break
@@ -53,7 +41,11 @@ class GetMap {
   }
   forMatePoly (data) {
     return data.reduce((init, ele, index) => {
-      let newData = ele.map(el => this.transform([el.longitude, el.latitude]))
+      let newData = ele.map(el => { 
+        const longitude = el.longitude ? ele.longitude : ele.lng
+        const latitude = el.latitude ? ele.latitude : ele.lat
+        return this.transform([longitude, latitude])
+      })
       init[index] = newData
       return init
       // return init
