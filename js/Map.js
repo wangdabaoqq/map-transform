@@ -9,7 +9,6 @@ class GetMap {
     this.mapOption = Object.assign({}, option)
   }
   transform (data) {
-    console.log(this, data)
     switch (this.mapOption.transMap) {
       case '0':
         return coordtransform.bd09togcj02(data[0], data[1]);
@@ -61,16 +60,12 @@ class GaoDe extends GetMap {
     this.markerPos = null
   }
   createMarker (position) {
-    console.log(1111)
     position = this.getPosSplit(position)
-    console.log(position)
     this.markerGao = new AMap.Marker({
       position,
       offset: new AMap.Pixel(0, -40)
     })
-    // this.getPosition(position, fn)
     this.markerPos = position
-    // console.log(position)
     this.mapOption.map.add(this.markerGao)
     this.mapOption.map.setFitView()
   }
@@ -95,7 +90,6 @@ class GaoDe extends GetMap {
     })
   }
   analyzePos (fn) {
-    console.log(111)
     this.getPosition(this.markerPos, fn)
   }
   SerializePos () {
@@ -110,7 +104,6 @@ class GaoDe extends GetMap {
   //   this.mapOption.map.setFitView()
   // }
   clearMap () {
-    console.log(this.mapOption)
     this.mapOption.map.clearMap()
   }
   savePath (path) {
