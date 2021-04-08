@@ -32,7 +32,7 @@
 				<div class="layui-form-item">
 					<div class="layui-input-block">
 						<select name="city" lay-verify="required" lay-filter="map">
-							<option id="loadGao" name="doc-radio-1" value="0" selected >高德地图</option>
+							<option id="loadGao" name="doc-radio-1" value="0" selected>高德地图</option>
 							<option id="loadBaidu" name="doc-radio-1" value="1">百度地图</option>
 						</select>
 					</div>
@@ -53,17 +53,17 @@
 				<!-- <div id="position"> -->
 				<div class="layui-form-item">
 					<!-- <label class="layui-form-label">输入经纬度</label> -->
-					<div class="layui-input-block widSty">
-						<textarea  name="identity" placeholder="输入坐标-坐标格式(参考支持格式段落)" class="layui-textarea"></textarea>
+					<div class="layui-input-block textArea">
+						<textarea name="identity" placeholder="输入坐标-坐标格式(参考支持格式段落)" class="layui-textarea"></textarea>
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<div class="layui-input-block widSty">
+					<div class="layui-input-block textArea">
 						<textarea disabled name="identity" placeholder="转换后的经纬度" class="layui-textarea"></textarea>
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<div class="layui-input-block widSty">
+					<div class="layui-input-block textArea">
 						<textarea disabled name="identity" placeholder="实际转换位置" class="layui-textarea"></textarea>
 					</div>
 				</div>
@@ -75,30 +75,32 @@
 				</div>
 				<blockquote class="layui-elem-quote">
 					<legend>目前支持格式:(支持单个点和多个点)</legend>
-						<div class="layui-field-box">
-							<pre  class="layui-code"  lay-height="200px">
+					<div class="layui-field-box">
+						<pre class="layui-code" lay-height="200px">
 							<p style="color: #009688; font-size: 18px; font-weight: 400; padding: 10px 0">单个点</p>
 								117.1974,36.6835
 							<p style="color: #009688; font-size: 18px; font-weight: 400; padding: 10px 0">多个点</p>
 								117.1974,36.6835,117.1960,36.6738
 							</pre>
-						</div>
+					</div>
 				</blockquote>
 
 			</form>
 			<!-- 查看路线 -->
 			<form class="layui-form" action="" id="poly">
 				<div class="layui-form-item layui-form-text">
-					<!-- <label class="layui-form-label">文本域</label> -->
 					<div class="layui-input-block textArea">
-						<textarea name="desc" placeholder="请输入批量经纬度(参考支持格式段落)"
-							class="layui-textarea"></textarea>
+						<textarea name="desc" placeholder="请输入批量经纬度(参考支持格式段落)" class="layui-textarea"></textarea>
 					</div>
+				</div>
+				<div class="layui-form-item">
 					<div class="layui-input-block textArea">
-						<textarea disabled name="string" placeholder="" class="layui-textarea"></textarea>
+						<textarea disabled name="string" placeholder="转换后的经纬度" class="layui-textarea"></textarea>
 					</div>
+				</div>
+				<div class="layui-form-item">
 					<div class="layui-input-block textArea">
-						<textarea disabled name="get" placeholder="" class="layui-textarea"></textarea>
+						<textarea disabled name="get" placeholder="实际转换位置" class="layui-textarea"></textarea>
 					</div>
 				</div>
 				<div class="layui-form-item">
@@ -108,9 +110,9 @@
 					</div>
 				</div>
 				<blockquote class="layui-elem-quote">
-						<legend>目前支持格式:</legend>
-						<div class="layui-field-box">
-							<pre  class="layui-code"  lay-height="200px">
+					<legend>目前支持格式:</legend>
+					<div class="layui-field-box">
+						<pre class="layui-code" lay-height="200px">
 							<p style="color: #009688; font-size: 18px; font-weight: 400; padding: 10px 0">格式一</p>
 							{
 								"济南":[
@@ -129,7 +131,7 @@
 							<p style="color: #009688; font-size: 18px; font-weight: 400; padding: 10px 0">格式二</p>
 							117.1965,36.6835,117.1963,36.6835,117.1960,36.6738
 							</pre>
-						</div>
+					</div>
 				</blockquote>
 			</form>
 		</div>
