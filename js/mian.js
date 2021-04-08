@@ -14,8 +14,10 @@
       // console.log(this, window)
       let newGao = new GaoDe(mapOption)
       newGao.createMarker(position)
+      let posText = ''
       newGao.analyzePos((result) => {
-        data.form[2].value = result
+        posText += `${result},`
+        data.form[2].value = posText.substring(0, posText.length - 1)
       })
       data.form[1].value = newGao.SerializePos()
     } else {

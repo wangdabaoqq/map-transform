@@ -1,5 +1,5 @@
 function getStringPos(data) {
-  const newString = data.join(';')
+  const newString = data.join(',')
   return newString
 }
 function getType () {
@@ -7,14 +7,15 @@ function getType () {
 }
 function analyzePos (fn) {
   if (this.mapOption.event === 'pos') {
-    this.getPosition(this.markerPos, fn)
+    this.markerPos.forEach(el => {
+      this.getPosition(el, fn)
+    })
   } else {
     this.getNewPathData.flat().forEach(ele => {
       this.getPosition(ele, fn)
     })
   }
-}
-class GetMap {
+}class GetMap {
   constructor (option) {
     this.mapOption = Object.assign({}, option)
   }
@@ -39,10 +40,16 @@ class GetMap {
   }
   getPosSplit (position) {
     if (typeof position === 'string') {
-      let pos = position.split(',')
-      position = this.transform(pos)
+      const datas = () => {
+        let pos = position.split(',')
+        let transData = []
+        for (let index = 0; index < pos.length - 1; index += 2) {
+          transData.push(this.transform(pos.slice(index, index + 2)))
+        }
+        return transData
+      }
+      return datas()
     }
-    return position
   }
   _getSerializePos (data) {
     return getStringPos.call(this, data)
@@ -74,13 +81,16 @@ class GaoDe extends GetMap {
   }
   createMarker (position) {
     position = this.getPosSplit(position)
-    let newPloy = new AMap.Marker({
-      position,
-      offset: new AMap.Pixel(0, -40)
+    position.forEach(el => {
+      console.log(el)
+      let newPloy = new AMap.Marker({
+        position: el,
+        offset: new AMap.Pixel(0, -40)
+      })
+      this.mapOption.map.add(newPloy)
+      this.mapOption.map.setFitView()
     })
     this.markerPos = position
-    this.mapOption.map.add(newPloy)
-    this.mapOption.map.setFitView()
   }
   getPosition(lnglat, fn) {
     AMap.plugin('AMap.Geocoder', function () {
