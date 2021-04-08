@@ -112,14 +112,12 @@ class GaoDe extends GetMap {
       let polyGao = new AMap.Polyline({
         path
       })
-      // console.log(polyGao)
       let mapGao = new AMap.OverlayGroup(polyGao)
       this.mapOption.map.add(mapGao)
       this.mapOption.map.setFitView()
     })
   }
   static getMap (option) {
-    // console.log(option)
     if (!GetMap.instance) {
       GetMap.instance = new GaoDe(option)
       return GetMap.instance
