@@ -3,7 +3,8 @@ function getStringPos(data) {
   return newString
 }
 function getType () {
-  return this.mapOption.event === 'pos' ? this._getSerializePos(this.markerPos) : this._getSerializePos(this.getNewPathData)
+  const getPos = this.mapOption.event === 'pos' ? JSON.stringify(this.markerPos) : JSON.stringify(this.getNewPathData)
+  return getPos
 }
 function analyzePos (fn) {
   if (this.mapOption.event === 'pos') {
@@ -11,11 +12,12 @@ function analyzePos (fn) {
       this.getPosition(el, fn)
     })
   } else {
-    this.getNewPathData.flat().forEach(ele => {
+    this.getNewPathData.forEach(ele => {
       this.getPosition(ele, fn)
     })
   }
-}class GetMap {
+}
+class GetMap {
   constructor (option) {
     this.mapOption = Object.assign({}, option)
   }
@@ -60,6 +62,14 @@ function analyzePos (fn) {
   _analyzePos(fn) {
     analyzePos.call(this, fn)
   }
+  isDataType (data) {
+    if (/({|})/.test(data)) {
+      let datas = Object.values(JSON.parse(data))
+      return Object.values(this.forMatePoly(datas))
+    } else {
+      return [this.getPosSplit(data)]
+    }
+  }
   forMatePoly (data) {
     return data.reduce((init, ele, index) => {
       let newData = ele.map(el => {
@@ -82,7 +92,6 @@ class GaoDe extends GetMap {
   createMarker (position) {
     position = this.getPosSplit(position)
     position.forEach(el => {
-      console.log(el)
       let newPloy = new AMap.Marker({
         position: el,
         offset: new AMap.Pixel(0, -40)
@@ -118,14 +127,17 @@ class GaoDe extends GetMap {
     this.mapOption.map.clearMap()
   }
   savePath (path) {
-    this.getNewPathData = Object.values(this.forMatePoly(path))
-    this.getNewPathData.forEach(path => {
+    this.getNewPathData = this.isDataType(path)
+    this.getNewPathData.map(path => {
       let polyGao = new AMap.Polyline({
         path
       })
       let mapGao = new AMap.OverlayGroup(polyGao)
       this.mapOption.map.add(mapGao)
       this.mapOption.map.setFitView()
+    })
+    this.getNewPathData = this.getNewPathData.flat().map(el => {
+      return [el.lng, el.lat]
     })
   }
   static getMap (option) {
@@ -155,7 +167,7 @@ class BaiDu extends GetMap {
     this.markerPos = position
   }
   savePath (path) {
-    this.getNewPathData = Object.values(this.forMatePoly(path))
+    this.getNewPathData = this.isDataType(path)
     const newPath = this.getNewPathData.map(element => {
       return element.map(ele => new BMap.Point(ele[0], ele[1]))
     })
@@ -164,6 +176,7 @@ class BaiDu extends GetMap {
       this.mapOption.map.centerAndZoom(path[0], 16)
       this.mapOption.map.addOverlay(newPoly)
     })
+    this.getNewPathData = this.getNewPathData.flat()
   }
   clearMap () {
     this.mapOption.map.clearOverlays()
@@ -177,8 +190,8 @@ class BaiDu extends GetMap {
     }, { poiRadius: 20 })
   }
   SerializePos () {
-    return this._SerializePos()  
-  } 
+    return this._SerializePos()
+  }
   analyzePos (fn) {
     this._analyzePos(fn)
   }
