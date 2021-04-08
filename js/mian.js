@@ -10,11 +10,10 @@
   }
   // 创建marker
   const createMarker = (position, data) => {
+    let posText = ''
     if (+window.mapOption.mapId === 0) {
-      // console.log(this, window)
       let newGao = new GaoDe(mapOption)
       newGao.createMarker(position)
-      let posText = ''
       newGao.analyzePos((result) => {
         posText += `${result},`
         data.form[2].value = posText.substring(0, posText.length - 1)
@@ -24,7 +23,8 @@
       let newBai = new BaiDu(mapOption)
       newBai.createMarker(position)
       newBai.analyzePos((result) => {
-        data.form[2].value = result
+        posText += `${result},`
+        data.form[2].value = posText.substring(0, posText.length - 1)
       })
       data.form[1].value = newBai.SerializePos()
     }

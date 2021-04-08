@@ -145,11 +145,14 @@ class BaiDu extends GetMap {
   }
   createMarker (position) {
     position = this.getPosSplit(position)
-    let point = new BMap.Point(position[0], position[1])
+    position.forEach(pos => {
+      let point = new BMap.Point(pos[0], pos[1])
+      let newMarker = new BMap.Marker(point)
+      this.mapOption.map.centerAndZoom(point, 20)
+      this.mapOption.map.addOverlay(newMarker)
+
+    })
     this.markerPos = position
-    let newMarker = new BMap.Marker(point)
-    this.mapOption.map.centerAndZoom(point, 20)
-    this.mapOption.map.addOverlay(newMarker)
   }
   savePath (path) {
     this.getNewPathData = Object.values(this.forMatePoly(path))
