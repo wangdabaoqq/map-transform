@@ -74,6 +74,10 @@
 						<button type="button" class="layui-btn" lay-submit lay-filter="clearMap">清除覆盖物</button>
 					</div>
 				</div>
+				<blockquote class="layui-elem-quote">
+					<div></div>
+				</blockquote>
+
 			</form>
 			<!-- 查看路线 -->
 			<form class="layui-form" action="" id="poly">
@@ -87,17 +91,33 @@
 						<textarea disabled name="desc" placeholder="请输入批量经纬度" class="layui-textarea"></textarea>
 					</div>
 				</div>
-				<!-- <div class="layui-form-item">
-					<div class="layui-input-block">
-						<button type="button" class="layui-btn" id="test3"><i class="layui-icon"></i>上传文件</button>
-					</div>
-				</div> -->
 				<div class="layui-form-item">
 					<div class="layui-input-block">
 						<button type="button" class="layui-btn" lay-submit lay-filter="submitPoly">查询</button>
 						<button type="button" class="layui-btn" lay-submit lay-filter="clearMap">清除地图</button>
 					</div>
 				</div>
+				<blockquote class="layui-elem-quote">
+						<legend>目前支持格式:</legend>
+						<div class="layui-field-box">
+							<pre  class="layui-code"  lay-height="200px">
+							{
+								"济南":[
+									{
+										"id" : "565358288",
+										"latitude" : 36.6835,
+										"longitude" : 117.1965
+									}, 
+									{
+										"id" : "565358288",
+										"latitude" : 36.6835,
+										"longitude" : 117.1963
+									} 
+								]
+							}
+							</pre>
+						</div>
+				</blockquote>
 			</form>
 		</div>
 		<div id="container"></div>

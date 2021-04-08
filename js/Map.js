@@ -40,9 +40,9 @@ class GetMap {
   }
   forMatePoly (data) {
     return data.reduce((init, ele, index) => {
-      let newData = ele.map(el => { 
-        const longitude = el.longitude ? ele.longitude : ele.lng
-        const latitude = el.latitude ? ele.latitude : ele.lat
+      let newData = ele.map(el => {
+        const longitude = el.longitude ? el.longitude : el.lng
+        const latitude = el.latitude ? el.latitude : el.lat
         return this.transform([longitude, latitude])
       })
       init[index] = newData
@@ -78,11 +78,8 @@ class GaoDe extends GetMap {
       })
       geocoder.getAddress(lnglat, (status, result) => {
         if (status === 'complete' && result.regeocode) {
-          var address = result.regeocode.formattedAddress;
-          // console.log(address)
-          // data.form[6].value = address
+          var address = result.regeocode.formattedAddres
           fn(address)
-          // document.getElementById('address').value = address;
         } else {
           throw new Error('根据经纬度查询地址失败')
         }
@@ -109,6 +106,7 @@ class GaoDe extends GetMap {
   savePath (path) {
     let getData = Object.values(this.forMatePoly(path))
     getData.forEach(path => {
+      console.log(path)
       let polyGao = new AMap.Polyline({
         path
       })

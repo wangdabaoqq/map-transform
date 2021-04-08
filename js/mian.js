@@ -37,6 +37,9 @@
       newBai.clearMap()
     }
   }
+  layui.use('code', function(){
+    layui.code();
+  });
   layui.use('form', function () {
     var form = layui.form
     form.on('select(map)', (data) => {
