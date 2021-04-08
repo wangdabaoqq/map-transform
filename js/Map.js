@@ -1,11 +1,11 @@
-function getStringPos() {
-  // return this.snaf = baz;
-  const newString = this.markerPos.join(',')
+function getStringPos(data) {
+  const newString = data.join(';')
   return newString
 }
 
 class GetMap {
   constructor (option) {
+    console.log(this.mapOption, option)
     this.mapOption = Object.assign({}, option)
   }
   transform (data) {
@@ -35,8 +35,8 @@ class GetMap {
     }
     return position
   }
-  _getSerializePos () {
-    return getStringPos.call(this)
+  _getSerializePos (data) {
+    return getStringPos.call(this, data)
   }
   forMatePoly (data) {
     return data.reduce((init, ele, index) => {
@@ -58,6 +58,7 @@ class GaoDe extends GetMap {
     this.polyGao = null
     this.markerGao = null
     this.markerPos = null
+    this.getNewPathData = null
   }
   createMarker (position) {
     position = this.getPosSplit(position)
@@ -70,7 +71,7 @@ class GaoDe extends GetMap {
     this.mapOption.map.setFitView()
   }
   getPosition(lnglat, fn) {
-    lnglat = Array.isArray(lnglat) ? lnglat : [lnglat]
+    // lnglat = Array.isArray(lnglat) ? lnglat : [lnglat]
     AMap.plugin('AMap.Geocoder', function () {
       let geocoder = new AMap.Geocoder({
         // city 指定进行编码查询的城市，支持传入城市名、adcode 和 citycode
@@ -78,7 +79,7 @@ class GaoDe extends GetMap {
       })
       geocoder.getAddress(lnglat, (status, result) => {
         if (status === 'complete' && result.regeocode) {
-          var address = result.regeocode.formattedAddres
+          var address = result.regeocode.formattedAddress
           fn(address)
         } else {
           throw new Error('根据经纬度查询地址失败')
@@ -87,26 +88,27 @@ class GaoDe extends GetMap {
     })
   }
   analyzePos (fn) {
-    this.getPosition(this.markerPos, fn)
+    if (this.mapOption.event === 'pos') {
+      this.getPosition(this.markerPos, fn)
+    } else {
+      this.getNewPathData.flat().forEach(ele => {
+        this.getPosition(ele, fn)
+      })
+      // console.log(this.getNewPathData)
+    }
+    // const this.mapOption.event === 'pos' ?
+    // this.getPosition(this.markerPos, fn)
   }
   SerializePos () {
-    return this._getSerializePos()
+    return this.mapOption.event === 'pos' ? this._getSerializePos(this.markerPos) : this._getSerializePos(this.getNewPathData)
+    // return this._getSerializePos()
   } 
-  // savePath (path) {
-  //   let polyGao = new AMap.Polyline({
-  //     path
-  //   })
-  //   this.polyGao = new AMap.OverlayGroup(polyGao)
-  //   this.mapOption.map.add(this.polyGao)
-  //   this.mapOption.map.setFitView()
-  // }
   clearMap () {
     this.mapOption.map.clearMap()
   }
   savePath (path) {
-    let getData = Object.values(this.forMatePoly(path))
-    getData.forEach(path => {
-      console.log(path)
+    this.getNewPathData = Object.values(this.forMatePoly(path))
+    this.getNewPathData.forEach(path => {
       let polyGao = new AMap.Polyline({
         path
       })
@@ -141,7 +143,6 @@ class BaiDu extends GetMap {
     this.mapOption.map.addOverlay(this.markerBai)
   }
   savePath (path) {
-    // console.log(this.forMatePoly(path))
     let getData = Object.values(this.forMatePoly(path))
     const newPath = getData.map(element => {
       return element.map(ele => new BMap.Point(ele[0], ele[1]))

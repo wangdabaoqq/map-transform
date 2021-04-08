@@ -5,7 +5,8 @@
   window.mapOption = {
     transMap: '0',
     map: null,
-    mapId: '0'
+    mapId: '0',
+    event: 'pos'
   }
   // 创建marker
   const createMarker = (position, data) => {

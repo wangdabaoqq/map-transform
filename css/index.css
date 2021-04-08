@@ -26,6 +26,7 @@ body,
   /* margin: 0 auto; */
   /* padding: 10px; */
   /* line-height: 40px; */
+  overflow: auto;
 }
 
 .layui-form-radio {
@@ -99,11 +100,4 @@ body,
 
 .layui-form-item {
   margin-bottom: 10px;
-}
-
-.coll {
-  position: absolute;
-  right: 10px;
-  top: 0px;
-  cursor: pointer;
 }

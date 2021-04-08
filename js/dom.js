@@ -18,10 +18,13 @@
   var getPoly = document.querySelector('#poly')
   // console.log(domShow)
   let result = new domShow(getPos, getPoly)
+  
   result.init()
   layui.use('form', function () {
     var form = layui.form
     form.on('radio(check)', function (data) {
+      window.mapOption.event = data.value
+      new GetMap(window.mapOption)
       if (data.value === 'pos') {
         result.init()
       } else {
