@@ -101,3 +101,13 @@ body,
 .layui-form-item {
   margin-bottom: 10px;
 }
+
+
+/* 地图搜索 */
+.searchMap {
+  position: absolute;
+  right: 10px;
+  z-index: 9;
+  top: 10px;
+  width: 300px;
+}

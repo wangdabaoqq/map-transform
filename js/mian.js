@@ -32,7 +32,6 @@
   // 清除覆盖物
   const clearMap = () => {
     if (+window.mapOption.mapId === 0) {
-      console.log(111)
       let newGao = new GaoDe(window.mapOption)
       newGao.clearMap()
     } else {
@@ -43,6 +42,13 @@
   layui.use('code', function(){
     layui.code();
   });
+  // layui.use('form', function () {
+  //   console.log(111)
+  //   var form = layui.form
+  //   form.on('select(searchInput)', function (data) {
+  //     console.log(data)
+  //   })
+  // })
   layui.use('form', function () {
     var form = layui.form
     form.on('select(map)', (data) => {
@@ -91,7 +97,9 @@
   window.onLoad = function () {
     let map = new AMap.Map('container')
     window.mapOption.map = map
+    // let newGao = new GaoDe(window.mapOption)
     jsapi.id = 'Gaode'
+    // newGao.searchMarker()
   }
   window.init = function () {
     let map = new BMap.Map('container')
@@ -99,13 +107,15 @@
     map.centerAndZoom(point, 15)
     map.enableScrollWheelZoom()
     window.mapOption.map = map
+    // let newBai = new BaiDu(window.mapOption)
+    // newBai.searchMarker()
     jsapi.id = 'Baidu'
   }
   function initLoad(name) {
     var url
     if (name === 'gaode') {
       url =
-        'https://webapi.amap.com/maps?v=1.4.15&key=9183c1c87d64f7f8454c8ce7b9199410&callback=onLoad'
+        'https://webapi.amap.com/maps?v=1.4.15&key=9183c1c87d64f7f8454c8ce7b9199410&plugin=AMap.Autocomplete,AMap.PlaceSearch&callback=onLoad'
     } else {
       // url = 'http://api.map.baidu.com/api?v=3.0&ak=zDYX28cey9auH2Yx0HO04MGUAZs34Pws'
       url =

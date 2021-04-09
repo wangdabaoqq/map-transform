@@ -3,7 +3,7 @@ function getStringPos(data) {
   return newString
 }
 function getType () {
-  const getPos = this.mapOption.event === 'pos' ? JSON.stringify(this.markerPos) : JSON.stringify(this.getNewPathData)
+  const getPos = this.mapOption.event === 'pos' ? JSON.stringify(this.markerPos.flat()) : JSON.stringify(this.getNewPathData)
   return getPos
 }
 function analyzePos (fn) {
@@ -41,7 +41,8 @@ class GetMap {
     this.mapOption = Object.assign({}, options)
   }
   getPosSplit (position) {
-    if (typeof position === 'string') {
+    let isType = Object.prototype.toString.call(position)
+    if (isType === "[object String]") {
       const datas = () => {
         let pos = position.split(',')
         let transData = []
@@ -51,6 +52,9 @@ class GetMap {
         return transData
       }
       return datas()
+    }
+    if (isType === "[object Array]") {
+      return [position]
     }
   }
   _getSerializePos (data) {
@@ -96,6 +100,7 @@ class GaoDe extends GetMap {
         position: el,
         offset: new AMap.Pixel(0, -40)
       })
+      console.log(this.mapOption.map)
       this.mapOption.map.add(newPloy)
       this.mapOption.map.setFitView()
     })
@@ -139,6 +144,22 @@ class GaoDe extends GetMap {
     this.getNewPathData = this.getNewPathData.flat().map(el => {
       return [el.lng, el.lat]
     })
+  }
+  searchMarker () {
+    let transPos = document.querySelector('#transPos')
+    let stringPos = document.querySelector('#stringPos')
+    let autoOptions = {
+      input: "searchInput"
+    }
+    var auto = new AMap.Autocomplete(autoOptions)
+    const select = (e) => {
+      this.createMarker([e.poi.location.lng, e.poi.location.lat])
+      this.analyzePos((result) => {
+        transPos.value = result
+      })
+      stringPos.value = this.SerializePos()
+    }
+    AMap.event.addListener(auto, "select", select)
   }
   static getMap (option) {
     if (!GetMap.instance) {
@@ -194,6 +215,43 @@ class BaiDu extends GetMap {
   }
   analyzePos (fn) {
     this._analyzePos(fn)
+  }
+  // 搜索
+  searchMarker () {
+    let searchInput = document.querySelector('.ssss .layui-select-title > input')
+    // let searchInputs = document.querySelector('#searchInput')
+    // let ddd = document.querySelector('.ssss .layui-anim-upbit')
+    // let optionss = document.createElement('option')
+    // let dddd = document.createElement('dd')
+    // optionss.innerText = ''
+    // dddd.innerText = ''
+    var options = {
+      // renderOptions:{map: this.mapOption.map, panel:"r-result"},
+      // pageCapacity:5,
+      onSearchComplete: function (results) {
+        console.log(results)
+        if (local.getStatus() == BMAP_STATUS_SUCCESS) { 
+          for (var i = 0; i < results.getCurrentNumPois(); i ++){
+            // console.log(results.getPoi(i).title, results.getPoi(i))
+            // // let options = document.createElement('option')
+            // optionss.title = results.getPoi(i).title
+            // optionss.setAttribute('value', results.getPoi(i).title)
+            // searchInputs.appendChild(optionss)
+            // // let dddd = document.createElement('dd')
+            // dddd.innerText = results.getPoi(i).title
+            // dddd.setAttribute('value', results.getPoi(i).title)
+            // ddd.appendChild(dddd)
+          }
+        }
+      }
+    }
+    var local = new BMap.LocalSearch(this.mapOption.map, options)
+    console.log(searchInput)
+    searchInput.addEventListener('input', (e) => {
+      console.log(e.target.value)
+      local.search(e.target.value)
+    })
+    // local.search(searchInput.value)
   }
   static getMap (option) {
     if (!GetMap.instance) {
